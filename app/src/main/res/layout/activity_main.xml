@@ -1,15 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_gravity="center"
+    android:gravity="center"
     tools:context="cn.xp.jike.MainActivity">
 
-    <cn.xp.jike.LikeView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-       />
+    <cn.xp.jike.LikeViewLayout
+        android:id="@+id/ll_like"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:clickable="true"
+        android:focusable="true"
+        >
 
-</android.support.constraint.ConstraintLayout>
+        <cn.xp.jike.LikeView
+            android:id="@+id/lv_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </cn.xp.jike.LikeViewLayout>
+
+</RelativeLayout>

@@ -1,5 +1,7 @@
 package cn.xp.jike;
 
+import android.animation.ObjectAnimator;
+import android.animation.PropertyValuesHolder;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -23,6 +25,11 @@ public class LikeView extends View {
     private float mCenterX;
     private float mCenterY;
     private Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+
+    float HALF_SCALE = 0.5F;
+    float FULL_SCALE = 1.0F;
+
+    float scale = 1.0F;
 
     OnLikeListener likeListener;
 
@@ -48,16 +55,38 @@ public class LikeView extends View {
         unselected = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_messages_like_unselected);
         selected = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_messages_like_selected);
         shining = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_messages_like_selected_shining);
+
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 //        initBitmap();
+        mCenterX = getWidth() / 2;
+        mCenterY = getHeight() / 2;
 
-        initLocation(canvas);
+        refreshLikeView(canvas);
+
+//        refreshLikeView(canvas);
+
+        if (isSelected) {
+            //点赞
+
+        } else {
+            //取消点赞
+        }
 
     }
+
+    public float getScale() {
+        return FULL_SCALE;
+    }
+
+    public void setScale(float scale) {
+        this.scale = scale;
+        postInvalidate();
+    }
+
 
     public void setLikeListener(OnLikeListener likeListener) {
         this.likeListener = likeListener;
@@ -65,27 +94,86 @@ public class LikeView extends View {
     }
 
 
-    private void initLocation(Canvas canvas) {
+   /* private void initLocation(Canvas canvas) {
         mCenterX = getWidth() / 2;
         mCenterY = getHeight() / 2;
 
-        canvas.save();
-        canvas.drawBitmap(unselected, mCenterX - selected.getWidth() / 2, mCenterY - selected.getHeight() / 2, paint);
-        canvas.restore();
+        refreshLikeView(canvas);
+
+    }*/
 
 
-        canvas.save();
-        canvas.scale(0f, 0f);
-        canvas.drawBitmap(selected, mCenterX - selected.getWidth() / 2, mCenterY - selected.getHeight() / 2, paint);
-        canvas.restore();
+    public void startAnimation() {
+        isSelected = !isSelected;
+        enlargementView();
+        postInvalidate();
+
+    }
+
+    private void showLikeAnimation(Canvas canvas) {
+//        ObjectAnimator animator = ObjectAnimator.ofFloat(this, "scale")
+    }
+
+    private void showUnlikeAnimation(Canvas canvas) {
+
+    }
+
+    private void refreshLikeView(Canvas canvas) {
+        if (isSelected) {
+            canvas.save();
+            canvas.scale(scale, scale);
+            canvas.drawBitmap(unselected, mCenterX - selected.getWidth() / 2, mCenterY - selected.getHeight() / 2, paint);
+            canvas.restore();
 
 
-        canvas.save();
-        canvas.scale(0f, 0f);
-        canvas.translate(0, -50);
-        canvas.drawBitmap(shining, mCenterX - shining.getWidth() / 2, mCenterY - shining.getHeight() / 2, paint);
-        canvas.restore();
+            canvas.save();
+            canvas.scale(scale, scale);
+            canvas.drawBitmap(selected, mCenterX - selected.getWidth() / 2, mCenterY - selected.getHeight() / 2, paint);
+            canvas.restore();
 
+
+            canvas.save();
+            canvas.scale(scale, scale);
+            canvas.translate(0, -50);
+            canvas.drawBitmap(shining, mCenterX - shining.getWidth() / 2, mCenterY - shining.getHeight() / 2, paint);
+            canvas.restore();
+        } else {
+            canvas.save();
+            canvas.drawBitmap(unselected, mCenterX - selected.getWidth() / 2, mCenterY - selected.getHeight() / 2, paint);
+            canvas.restore();
+
+
+            canvas.save();
+            canvas.scale(scale, scale);
+            canvas.drawBitmap(selected, mCenterX - selected.getWidth() / 2, mCenterY - selected.getHeight() / 2, paint);
+            canvas.restore();
+
+
+            canvas.save();
+            canvas.scale(scale, scale);
+            canvas.translate(0, -50);
+            canvas.drawBitmap(shining, mCenterX - shining.getWidth() / 2, mCenterY - shining.getHeight() / 2, paint);
+            canvas.restore();
+        }
+    }
+
+    //放大动画
+    private void enlargementView() {
+        isSelected = true;
+        ObjectAnimator animator = ObjectAnimator.ofFloat(this, "scale", 0.1f, 1.0f);
+        animator.start();
+    }
+
+    public void touchDownAnimation(){
+        PropertyValuesHolder holder1 = PropertyValuesHolder.ofFloat("scaleX", 1.0f, 0.8f);
+        PropertyValuesHolder holder2 = PropertyValuesHolder.ofFloat("scaleY", 1.0f, 0.8f);
+        ObjectAnimator.ofPropertyValuesHolder(this, holder1, holder2).start();
+    }
+
+    public void touchUpAnimation(){
+        PropertyValuesHolder holder1 = PropertyValuesHolder.ofFloat("scaleX", 0.8f, 1.0f);
+        PropertyValuesHolder holder2 = PropertyValuesHolder.ofFloat("scaleY", 0.8f, 1.0f);
+        ObjectAnimator.ofPropertyValuesHolder(this, holder1, holder2).start();
     }
 
 
