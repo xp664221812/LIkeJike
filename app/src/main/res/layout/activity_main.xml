@@ -9,16 +9,22 @@
 
     <cn.xp.jike.LikeViewLayout
         android:id="@+id/ll_like"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:clickable="true"
         android:focusable="true"
+        android:orientation="horizontal"
         >
 
         <cn.xp.jike.LikeView
             android:id="@+id/lv_start"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_width="50dp"
+            android:layout_height="50dp" />
+
+        <cn.xp.jike.CountView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            />
     </cn.xp.jike.LikeViewLayout>
 
 </RelativeLayout>

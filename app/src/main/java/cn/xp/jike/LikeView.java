@@ -26,16 +26,24 @@ public class LikeView extends View {
     private float mCenterY;
     private Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
 
-    float HALF_SCALE = 0.5F;
     float FULL_SCALE = 1.0F;
+    float HIDE_SCALE = 0F;
 
     float scale = 1.0F;
 
-    OnLikeListener likeListener;
-
-
     public interface OnLikeListener {
-        void onLike();
+        void onThumbUp();
+
+        void onThumbDown();
+    }
+
+    private OnLikeListener likeListener;
+
+    public void setLikeListener(OnLikeListener likeListener) {
+        this.likeListener = likeListener;
+        isSelected = !isSelected;
+        postInvalidate();
+
     }
 
 
@@ -88,10 +96,6 @@ public class LikeView extends View {
     }
 
 
-    public void setLikeListener(OnLikeListener likeListener) {
-        this.likeListener = likeListener;
-        this.likeListener.onLike();
-    }
 
 
    /* private void initLocation(Canvas canvas) {
@@ -121,36 +125,37 @@ public class LikeView extends View {
     private void refreshLikeView(Canvas canvas) {
         if (isSelected) {
             canvas.save();
-            canvas.scale(scale, scale);
+            canvas.scale(HIDE_SCALE, HIDE_SCALE);
             canvas.drawBitmap(unselected, mCenterX - selected.getWidth() / 2, mCenterY - selected.getHeight() / 2, paint);
             canvas.restore();
 
 
             canvas.save();
-            canvas.scale(scale, scale);
+            canvas.scale(FULL_SCALE, FULL_SCALE);
             canvas.drawBitmap(selected, mCenterX - selected.getWidth() / 2, mCenterY - selected.getHeight() / 2, paint);
             canvas.restore();
 
 
             canvas.save();
-            canvas.scale(scale, scale);
+            canvas.scale(FULL_SCALE, FULL_SCALE);
             canvas.translate(0, -50);
             canvas.drawBitmap(shining, mCenterX - shining.getWidth() / 2, mCenterY - shining.getHeight() / 2, paint);
             canvas.restore();
         } else {
             canvas.save();
+            canvas.scale(FULL_SCALE, FULL_SCALE);
             canvas.drawBitmap(unselected, mCenterX - selected.getWidth() / 2, mCenterY - selected.getHeight() / 2, paint);
             canvas.restore();
 
 
             canvas.save();
-            canvas.scale(scale, scale);
+            canvas.scale(HIDE_SCALE, HIDE_SCALE);
             canvas.drawBitmap(selected, mCenterX - selected.getWidth() / 2, mCenterY - selected.getHeight() / 2, paint);
             canvas.restore();
 
 
             canvas.save();
-            canvas.scale(scale, scale);
+            canvas.scale(HIDE_SCALE, HIDE_SCALE);
             canvas.translate(0, -50);
             canvas.drawBitmap(shining, mCenterX - shining.getWidth() / 2, mCenterY - shining.getHeight() / 2, paint);
             canvas.restore();
@@ -164,13 +169,13 @@ public class LikeView extends View {
         animator.start();
     }
 
-    public void touchDownAnimation(){
+    public void touchDownAnimation() {
         PropertyValuesHolder holder1 = PropertyValuesHolder.ofFloat("scaleX", 1.0f, 0.8f);
         PropertyValuesHolder holder2 = PropertyValuesHolder.ofFloat("scaleY", 1.0f, 0.8f);
         ObjectAnimator.ofPropertyValuesHolder(this, holder1, holder2).start();
     }
 
-    public void touchUpAnimation(){
+    public void touchUpAnimation() {
         PropertyValuesHolder holder1 = PropertyValuesHolder.ofFloat("scaleX", 0.8f, 1.0f);
         PropertyValuesHolder holder2 = PropertyValuesHolder.ofFloat("scaleY", 0.8f, 1.0f);
         ObjectAnimator.ofPropertyValuesHolder(this, holder1, holder2).start();

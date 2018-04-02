@@ -11,12 +11,15 @@ import android.widget.LinearLayout;
 
 public class LikeViewLayout extends LinearLayout implements View.OnClickListener {
 
+
     private LikeView likeView;
     protected static final String TAG = LikeViewLayout.class.getSimpleName();
     float left;
     float right;
     float top;
     float bottom;
+
+    boolean isLike;
 
     public LikeViewLayout(Context context) {
         super(context);
@@ -35,6 +38,7 @@ public class LikeViewLayout extends LinearLayout implements View.OnClickListener
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
         likeView = findViewById(R.id.lv_start);
+        isLike = likeView.isSelected();
         left = getLeft();
         right = getRight();
         top = getTop();
@@ -64,6 +68,17 @@ public class LikeViewLayout extends LinearLayout implements View.OnClickListener
     @Override
     public void onClick(View v) {
         Log.d(TAG, "3333333333333333333333");
+        likeView.setLikeListener(new LikeView.OnLikeListener() {
+            @Override
+            public void onThumbUp() {
+
+            }
+
+            @Override
+            public void onThumbDown() {
+
+            }
+        });
 //        likeView.startAnimation();
     }
 }
