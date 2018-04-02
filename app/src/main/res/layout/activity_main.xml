@@ -22,6 +22,7 @@
             android:layout_height="50dp" />
 
         <cn.xp.jike.CountView
+            android:id="@+id/cv_count"
             android:layout_width="50dp"
             android:layout_height="50dp"
             />

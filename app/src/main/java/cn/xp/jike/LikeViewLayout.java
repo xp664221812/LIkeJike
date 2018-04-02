@@ -13,6 +13,7 @@ public class LikeViewLayout extends LinearLayout implements View.OnClickListener
 
 
     private LikeView likeView;
+    private CountView countView;
     protected static final String TAG = LikeViewLayout.class.getSimpleName();
     float left;
     float right;
@@ -38,6 +39,8 @@ public class LikeViewLayout extends LinearLayout implements View.OnClickListener
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
         likeView = findViewById(R.id.lv_start);
+        countView = findViewById(R.id.cv_count);
+        countView.setCount(1234);
         isLike = likeView.isSelected();
         left = getLeft();
         right = getRight();
@@ -79,6 +82,8 @@ public class LikeViewLayout extends LinearLayout implements View.OnClickListener
 
             }
         });
+
+        countView.setAction(1);
 //        likeView.startAnimation();
     }
 }
