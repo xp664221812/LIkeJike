@@ -40,7 +40,7 @@ public class LikeViewLayout extends LinearLayout implements View.OnClickListener
         super.onAttachedToWindow();
         likeView = findViewById(R.id.lv_start);
         countView = findViewById(R.id.cv_count);
-        countView.setCount(1234);
+        countView.setCount(999);
         isLike = likeView.isSelected();
         left = getLeft();
         right = getRight();
