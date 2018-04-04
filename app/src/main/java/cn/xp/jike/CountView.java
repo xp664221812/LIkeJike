@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.LinearInterpolator;
 
 
 public class CountView extends View {
@@ -83,13 +84,13 @@ public class CountView extends View {
                     float startX = paint.measureText(oldArray, 0, oldArray.length - num);
                     Log.d(TAG, "new count============" + newCount + ",length=========" + num);
                     Log.d(TAG, "startX=============" + startX);
-//                    canvas.drawText(newArray, 0, newArray.length - num, 0, 120, paint);
+                    canvas.drawText(newArray, 0, newArray.length - num, 0, 120, paint);
                     canvas.drawText(newArray, newArray.length - num, num, startX, 120, paint);
 
                 }
-                animate().translationY(-100);
+//                animate().translationY(-100);
                 playPlusAnimation();
-
+                Log.d(TAG, "after y================" + getY());
                 count = newCount;
 
                 break;
@@ -106,16 +107,25 @@ public class CountView extends View {
     }
 
     public void playPlusAnimation() {
-        PropertyValuesHolder holder1 = PropertyValuesHolder.ofFloat("translationY", 0f, -10f);
-        PropertyValuesHolder holder2 = PropertyValuesHolder.ofFloat("scaleX", 1f, 0f);
-        PropertyValuesHolder holder3 = PropertyValuesHolder.ofFloat("scaleY", 1f, 0f);
-        ObjectAnimator animator1 = ObjectAnimator.ofFloat(this, "translationY", 0f, -10f);
+
+        ObjectAnimator animator1 = ObjectAnimator.ofFloat(this, "translationY", 0, -50);
         ObjectAnimator animator2 = ObjectAnimator.ofFloat(this, "scaleX", 1f, 0f);
         ObjectAnimator animator3 = ObjectAnimator.ofFloat(this, "scaleY", 1f, 0f);
+
+
+        ObjectAnimator animator4 = ObjectAnimator.ofFloat(this, "translationY", -50, 25);
+
+        ObjectAnimator animator5 = ObjectAnimator.ofFloat(this, "scaleX", 0f, 1f);
+        ObjectAnimator animator6 = ObjectAnimator.ofFloat(this, "scaleY", 0f, 1f);
+        ObjectAnimator animator7 = ObjectAnimator.ofFloat(this, "translationY", 25, 0);
+
+
         AnimatorSet animatorSet = new AnimatorSet();
-        animatorSet.play(animator1).before(animator2).with(animator3);
+        animatorSet.setInterpolator(new LinearInterpolator());
+        animatorSet.setDuration(100);
+        animatorSet.play(animator1).before(animator2).with(animator3).before(animator4)
+                .before(animator5).with(animator6).before(animator7);
         animatorSet.start();
-//        ObjectAnimator.ofPropertyValuesHolder(this, holder1, holder2, holder3).start();
     }
 
 
