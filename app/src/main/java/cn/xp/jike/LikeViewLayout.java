@@ -83,7 +83,7 @@ public class LikeViewLayout extends LinearLayout implements View.OnClickListener
             }
         });
 
-        countView.setAction(1);
+//        countView.setAction(1);
 //        likeView.startAnimation();
     }
 }
