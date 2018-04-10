@@ -49,7 +49,6 @@ public class LikeViewLayout extends LinearLayout implements View.OnClickListener
 //        Log.d(TAG, "left==" + left + ",right==" + right + ",top==" + top + ",bottom==" + bottom);
         setOnClickListener(this);
 
-
     }
 
     @Override

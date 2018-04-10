@@ -69,6 +69,7 @@ public class LikeView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+
 //        initBitmap();
         mCenterX = getWidth() / 2;
         mCenterY = getHeight() / 2;
