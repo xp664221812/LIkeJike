@@ -69,20 +69,22 @@ public class LikeViewLayout extends LinearLayout implements View.OnClickListener
 
     @Override
     public void onClick(View v) {
-        Log.d(TAG, "3333333333333333333333");
+        setOnClickListener(null);
         likeView.setLikeListener(new LikeView.OnLikeListener() {
             @Override
             public void onThumbUp() {
-
+                isLike=true;
+                setOnClickListener(LikeViewLayout.this);
             }
 
             @Override
             public void onThumbDown() {
-
+                isLike=false;
+                setOnClickListener(LikeViewLayout.this);
             }
         });
 
-        countView.playPlusAnimation(true);
+        countView.playPlusAnimation(!isLike);
 //        likeView.startAnimation();
     }
 }

@@ -41,6 +41,8 @@ public class CountView extends View {
     }
 
 
+
+
     public void setColor(ColorObject colorObject) {
         mColorObject = colorObject;
         postInvalidate();
@@ -93,77 +95,9 @@ public class CountView extends View {
         }
     }
 
-    /*   public void refreshView(Canvas canvas) {
-           switch (action) {
-               case 0:
-                   canvas.drawText(String.valueOf(count), 0, 120, paint);
-                   break;
-
-               case 1: {
-                   newCount = count + 1;
-   //                action = 1;
-                   char[] newArray = String.valueOf(newCount).toCharArray();
-                   char[] oldArray = String.valueOf(count).toCharArray();
-
-   //                canvas.drawText(newArray, 0, newArray.length, 0, 120, paint);
-
-                   int num = 0;
-                   if (newArray.length > oldArray.length) {
-                       num = newArray.length;
-                       canvas.drawText(newArray, 0, num, 0, 120, paint);
-                   } else {
-                       for (int i = 0; i < newArray.length; i++) {
-                           if (newArray[i] != oldArray[i]) {
-                               num++;
-                           }
-                       }
-                       float startX = paint.measureText(oldArray, 0, oldArray.length - num);
-                       Log.d(TAG, "new count============" + newCount + ",length=========" + num);
-                       Log.d(TAG, "startX=============" + startX);
-                       canvas.drawText(newArray, 0, newArray.length - num, 0, 120, paint);
-                       canvas.drawText(newArray, newArray.length - num, num, startX, 120, paint);
-
-                   }
-   //                animate().translationY(-100);
-                   Log.d(TAG, "after y================" + getY());
-                   count = newCount;
-
-                   break;
-               }
-
-               case 2:
-                   count = newCount;
-                   break;
-
-
-           }
-
-
-       }
-   */
     public void playPlusAnimation(boolean thumbUp) {
         isFirstInit = false;
         plus = thumbUp;
-
-//        ObjectAnimator animator1 = ObjectAnimator.ofFloat(this, "translationY", 0, -50);
-//        ObjectAnimator animator2 = ObjectAnimator.ofFloat(this, "scaleX", 1f, 0f);
-//        ObjectAnimator animator3 = ObjectAnimator.ofFloat(this, "scaleY", 1f, 0f);
-//
-//
-//        ObjectAnimator animator4 = ObjectAnimator.ofFloat(this, "translationY", -50, 25);
-//
-//        ObjectAnimator animator5 = ObjectAnimator.ofFloat(this, "scaleX", 0f, 1f);
-//        ObjectAnimator animator6 = ObjectAnimator.ofFloat(this, "scaleY", 0f, 1f);
-//        ObjectAnimator animator7 = ObjectAnimator.ofFloat(this, "translationY", 25, 0);
-//
-//
-//        AnimatorSet animatorSet = new AnimatorSet();
-//        animatorSet.setInterpolator(new LinearInterpolator());
-//        animatorSet.setDuration(100);
-//        animatorSet.play(animator1).before(animator2).with(animator3).before(animator4)
-//                .before(animator5).with(animator6).before(animator7);
-//        animatorSet.start();
-
 
         ColorObject object1 = new ColorObject(originColor, transparentColor);
         ColorObject object2 = new ColorObject(transparentColor, originColor);
@@ -177,22 +111,6 @@ public class CountView extends View {
 
     }
 
-
-    private void initData() {
-        Point point1 = new Point(0, 120);
-        point1.content = String.valueOf(count);
-        point1.color = originColor;
-        points[0] = point1;
-        Point point2 = new Point(0, 120);
-        point1.content = String.valueOf(count);
-        point1.color = originColor;
-        points[0] = point1;
-        Point point3 = new Point(0, 120);
-        point1.content = String.valueOf(count);
-        point1.color = originColor;
-        points[0] = point1;
-        Log.d(TAG, "length===============" + points.length);
-    }
 
 
     private void calculatePoints(boolean plus) {
@@ -239,17 +157,19 @@ public class CountView extends View {
 
             if (newCount < count) {
                 point2 = new Point(startX, 80, String.valueOf(newArray, newArray.length - num, num), transparentColor);
-                point3 = new Point(startX, 80, String.valueOf(oldArray, oldArray.length - num, num), transparentColor);
+                point3 = new Point(startX, 160, String.valueOf(oldArray, oldArray.length - num, num), transparentColor);
             } else {
                 point2 = new Point(startX, 80, String.valueOf(oldArray, oldArray.length - num, num), transparentColor);
-                point3 = new Point(startX, 80, String.valueOf(newArray, newArray.length - num, num), transparentColor);
+                point3 = new Point(startX, 160, String.valueOf(newArray, newArray.length - num, num), transparentColor);
             }
             points[0] = point0;
             points[1] = point1;
             points[2] = point2;
             points[3] = point3;
 
+
         }
+        count = newCount;
 //
 //        Point point0 = new Point(0, 120, String.valueOf(newCount), originColor);
 //        points[0] = point0;

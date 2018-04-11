@@ -43,6 +43,11 @@ public class LikeView extends View {
         this.likeListener = likeListener;
         isSelected = !isSelected;
         postInvalidate();
+        if(isSelected){
+            likeListener.onThumbUp();
+        }else {
+            likeListener.onThumbDown();
+        }
 
     }
 
@@ -87,6 +92,10 @@ public class LikeView extends View {
 
     }
 
+    public boolean isSelected(){
+        return isSelected;
+    }
+
     public float getScale() {
         return FULL_SCALE;
     }
@@ -98,14 +107,6 @@ public class LikeView extends View {
 
 
 
-
-   /* private void initLocation(Canvas canvas) {
-        mCenterX = getWidth() / 2;
-        mCenterY = getHeight() / 2;
-
-        refreshLikeView(canvas);
-
-    }*/
 
 
     public void startAnimation() {
@@ -165,7 +166,7 @@ public class LikeView extends View {
 
     //放大动画
     private void enlargementView() {
-        isSelected = true;
+//        isSelected = true;
         ObjectAnimator animator = ObjectAnimator.ofFloat(this, "scale", 0.1f, 1.0f);
         animator.start();
     }
