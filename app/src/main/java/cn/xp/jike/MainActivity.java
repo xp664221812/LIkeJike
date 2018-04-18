@@ -2,13 +2,11 @@ package cn.xp.jike;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.LinearLayout;
 
 public class MainActivity extends AppCompatActivity {
     protected static final String TAG = MainActivity.class.getSimpleName();
     private LikeViewLayout likeViewLayout;
-    private LikeView likeView;
+    private ThumbView thumbView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

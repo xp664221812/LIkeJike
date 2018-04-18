@@ -3,7 +3,6 @@ package cn.xp.jike;
 import android.content.Context;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -12,7 +11,7 @@ import android.widget.LinearLayout;
 public class LikeViewLayout extends LinearLayout implements View.OnClickListener {
 
 
-    private LikeView likeView;
+    private ThumbView thumbView;
     private CountView countView;
     protected static final String TAG = LikeViewLayout.class.getSimpleName();
     float left;
@@ -38,10 +37,10 @@ public class LikeViewLayout extends LinearLayout implements View.OnClickListener
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        likeView = findViewById(R.id.lv_start);
+        thumbView = findViewById(R.id.lv_start);
         countView = findViewById(R.id.cv_count);
         countView.setCount(999);
-        isLike = likeView.isSelected();
+        isLike = thumbView.isSelected();
         left = getLeft();
         right = getRight();
         top = getTop();
@@ -56,10 +55,10 @@ public class LikeViewLayout extends LinearLayout implements View.OnClickListener
         int action = event.getAction();
         switch (action) {
             case MotionEvent.ACTION_DOWN:
-                likeView.touchDownAnimation();
+                thumbView.touchDownAnimation();
                 break;
             case MotionEvent.ACTION_UP:
-                likeView.touchUpAnimation();
+                thumbView.touchUpAnimation();
                 break;
         }
 
@@ -70,21 +69,21 @@ public class LikeViewLayout extends LinearLayout implements View.OnClickListener
     @Override
     public void onClick(View v) {
         setOnClickListener(null);
-        likeView.setLikeListener(new LikeView.OnLikeListener() {
+        thumbView.setLikeListener(new ThumbView.OnLikeListener() {
             @Override
             public void onThumbUp() {
-                isLike=true;
+                isLike = true;
                 setOnClickListener(LikeViewLayout.this);
             }
 
             @Override
             public void onThumbDown() {
-                isLike=false;
+                isLike = false;
                 setOnClickListener(LikeViewLayout.this);
             }
         });
 
-        countView.playPlusAnimation(!isLike);
+        countView.playPlusAnimation(isLike);
 //        likeView.startAnimation();
     }
 }

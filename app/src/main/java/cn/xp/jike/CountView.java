@@ -35,12 +35,9 @@ public class CountView extends View {
     public void setCount(int count) {
         this.count = count;
         isFirstInit = true;
-        Log.d(TAG, "3333333333333333333");
 //        initData();
 //        postInvalidate();
     }
-
-
 
 
     public void setColor(ColorObject colorObject) {
@@ -55,6 +52,7 @@ public class CountView extends View {
 
     public CountView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
+
 //        initData();
     }
 
@@ -78,20 +76,27 @@ public class CountView extends View {
 //            canvas.drawText(String.valueOf(count), 0, 80, paint);
 //            canvas.drawText(String.valueOf(count), 0, 160, paint);
         } else {
+            float fraction = mColorObject.fraction;
+
+            Log.d(TAG, "fraction==============" + fraction);
+
             //不变部分
             paint.setColor(originColor);
             canvas.drawText(points[0].content, points[0].x, points[0].y, paint);
+
+            //变化上部分
+            paint.setColor(mColorObject.color1);
+            canvas.drawText(points[2].content, points[2].x, 120 - (120 - points[2].y) * fraction, paint);
+
+            //变化下部分
+            paint.setColor(mColorObject.color1);
+            canvas.drawText(points[3].content, points[3].x, 160 - (points[3].y - 120) * fraction, paint);
+
+
             //变化部分
             paint.setColor(mColorObject.color2);
             canvas.drawText(points[1].content, points[1].x, points[1].y, paint);
 
-            //变化上部分
-            paint.setColor(mColorObject.color1);
-            canvas.drawText(points[2].content, points[2].x, points[2].y, paint);
-
-            //变化下部分
-            paint.setColor(mColorObject.color1);
-            canvas.drawText(points[3].content, points[3].x, points[3].y, paint);
         }
     }
 
@@ -104,13 +109,12 @@ public class CountView extends View {
 
         calculatePoints(true);
         ObjectAnimator animator = ObjectAnimator.ofObject(this, "color", new HsvEvaluator(), object1, object2);
-        animator.setDuration(350);
+        animator.setDuration(300);
         animator.setInterpolator(new LinearInterpolator());
         animator.start();
 
 
     }
-
 
 
     private void calculatePoints(boolean plus) {
@@ -240,7 +244,7 @@ public class CountView extends View {
             int alpha2 = startValue.color2 >> 24 + (int) ((endValue.color2 >> 24 - startValue.color2 >> 24) * fraction);
 
 
-            return new ColorObject(Color.HSVToColor(alpha1, outHsv1), Color.HSVToColor(alpha2, outHsv2));
+            return new ColorObject(Color.HSVToColor(alpha1, outHsv1), Color.HSVToColor(alpha2, outHsv2), fraction);
 
 
         }

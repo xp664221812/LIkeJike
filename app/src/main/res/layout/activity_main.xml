@@ -16,7 +16,7 @@
         android:orientation="horizontal"
         >
 
-        <cn.xp.jike.LikeView
+        <cn.xp.jike.ThumbView
             android:id="@+id/lv_start"
             android:layout_width="50dp"
             android:layout_height="50dp" />

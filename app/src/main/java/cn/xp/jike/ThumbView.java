@@ -12,10 +12,10 @@ import android.util.AttributeSet;
 import android.view.View;
 
 
-public class LikeView extends View {
+public class ThumbView extends View {
 
 
-    protected static final String TAG = LikeView.class.getSimpleName();
+    protected static final String TAG = ThumbView.class.getSimpleName();
     private Bitmap unselected;
     private Bitmap selected;
     private Bitmap shining;
@@ -52,15 +52,15 @@ public class LikeView extends View {
     }
 
 
-    public LikeView(Context context) {
+    public ThumbView(Context context) {
         super(context);
     }
 
-    public LikeView(Context context, @Nullable AttributeSet attrs) {
+    public ThumbView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public LikeView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public ThumbView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
