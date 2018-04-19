@@ -20,7 +20,7 @@ public class ThumbView extends View {
     private Bitmap selected;
     private Bitmap shining;
 
-    private boolean isSelected = false;
+    private boolean isLike = false;
 
     private float mCenterX;
     private float mCenterY;
@@ -39,13 +39,18 @@ public class ThumbView extends View {
 
     private OnLikeListener likeListener;
 
+
+    public void setLike(boolean isLike) {
+        this.isLike = isLike;
+    }
+
     public void setLikeListener(OnLikeListener likeListener) {
         this.likeListener = likeListener;
-        isSelected = !isSelected;
+        isLike = !isLike;
         postInvalidate();
-        if(isSelected){
+        if (isLike) {
             likeListener.onThumbUp();
-        }else {
+        } else {
             likeListener.onThumbDown();
         }
 
@@ -83,7 +88,7 @@ public class ThumbView extends View {
 
 //        refreshLikeView(canvas);
 
-        if (isSelected) {
+        if (isLike) {
             //点赞
 
         } else {
@@ -92,8 +97,8 @@ public class ThumbView extends View {
 
     }
 
-    public boolean isSelected(){
-        return isSelected;
+    public boolean isSelected() {
+        return isLike;
     }
 
     public float getScale() {
@@ -106,11 +111,8 @@ public class ThumbView extends View {
     }
 
 
-
-
-
     public void startAnimation() {
-        isSelected = !isSelected;
+        isLike = !isLike;
         enlargementView();
         postInvalidate();
 
@@ -125,7 +127,7 @@ public class ThumbView extends View {
     }
 
     private void refreshLikeView(Canvas canvas) {
-        if (isSelected) {
+        if (isLike) {
             canvas.save();
             canvas.scale(HIDE_SCALE, HIDE_SCALE);
             canvas.drawBitmap(unselected, mCenterX - selected.getWidth() / 2, mCenterY - selected.getHeight() / 2, paint);
@@ -166,7 +168,7 @@ public class ThumbView extends View {
 
     //放大动画
     private void enlargementView() {
-//        isSelected = true;
+//        isLike = true;
         ObjectAnimator animator = ObjectAnimator.ofFloat(this, "scale", 0.1f, 1.0f);
         animator.start();
     }

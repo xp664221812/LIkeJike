@@ -21,6 +21,17 @@ public class LikeViewLayout extends LinearLayout implements View.OnClickListener
 
     boolean isLike;
 
+    private int likeCount = 0;
+
+    private onLikeListener likeListener;
+
+    public interface onLikeListener {
+        void onThumbUp();
+
+        void onThumbDown();
+    }
+
+
     public LikeViewLayout(Context context) {
         super(context);
     }
@@ -66,9 +77,26 @@ public class LikeViewLayout extends LinearLayout implements View.OnClickListener
 
     }
 
+
+    public int getLikeCount() {
+        return likeCount;
+    }
+
+
+    public void setLikeListener(onLikeListener listener) {
+        this.likeListener = listener;
+    }
+
+    public void setIsLike(boolean isLike) {
+        this.isLike = isLike;
+    }
+
     @Override
     public void onClick(View v) {
         setOnClickListener(null);
+
+        thumbView.setLike(true);
+
         thumbView.setLikeListener(new ThumbView.OnLikeListener() {
             @Override
             public void onThumbUp() {
