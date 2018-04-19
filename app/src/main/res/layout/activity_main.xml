@@ -7,14 +7,14 @@
     android:gravity="center"
     tools:context="cn.xp.jike.MainActivity">
 
-    <cn.xp.jike.LikeViewLayout
+    <cn.xp.jike.LikeView
         android:id="@+id/ll_like"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="#ffffff"
         android:clickable="true"
         android:focusable="true"
-        android:orientation="horizontal"
-        >
+        android:orientation="horizontal">
 
         <cn.xp.jike.ThumbView
             android:id="@+id/lv_start"
@@ -24,8 +24,7 @@
         <cn.xp.jike.CountView
             android:id="@+id/cv_count"
             android:layout_width="50dp"
-            android:layout_height="50dp"
-            />
-    </cn.xp.jike.LikeViewLayout>
+            android:layout_height="50dp" />
+    </cn.xp.jike.LikeView>
 
 </RelativeLayout>

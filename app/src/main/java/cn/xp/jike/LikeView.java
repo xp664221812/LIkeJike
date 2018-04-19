@@ -1,6 +1,9 @@
 package cn.xp.jike;
 
 import android.content.Context;
+import android.content.res.TypedArray;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -8,20 +11,17 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 
-public class LikeViewLayout extends LinearLayout implements View.OnClickListener {
+public class LikeView extends LinearLayout implements View.OnClickListener {
 
 
     private ThumbView thumbView;
     private CountView countView;
-    protected static final String TAG = LikeViewLayout.class.getSimpleName();
-    float left;
-    float right;
-    float top;
-    float bottom;
+    protected static final String TAG = LikeView.class.getSimpleName();
 
     boolean isLike;
 
-    private int likeCount = 0;
+    int distance;
+
 
     private onLikeListener likeListener;
 
@@ -32,15 +32,19 @@ public class LikeViewLayout extends LinearLayout implements View.OnClickListener
     }
 
 
-    public LikeViewLayout(Context context) {
+    public LikeView(Context context) {
         super(context);
     }
 
-    public LikeViewLayout(Context context, @Nullable AttributeSet attrs) {
+    public LikeView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.LikeView);
+        distance = a.getDimensionPixelSize(R.styleable.LikeView_distance_between_thumb_and_count, 0);
+
+        a.recycle();
     }
 
-    public LikeViewLayout(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public LikeView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
@@ -51,12 +55,21 @@ public class LikeViewLayout extends LinearLayout implements View.OnClickListener
         thumbView = findViewById(R.id.lv_start);
         countView = findViewById(R.id.cv_count);
         countView.setCount(999);
+
+        LinearLayout.LayoutParams params = (LayoutParams) countView.getLayoutParams();
+
+        params.leftMargin = (int) Utils.dpToPixel(distance);
+
+        countView.setLayoutParams(params);
+
         isLike = thumbView.isSelected();
-        left = getLeft();
-        right = getRight();
-        top = getTop();
-        bottom = getBottom();
-//        Log.d(TAG, "left==" + left + ",right==" + right + ",top==" + top + ",bottom==" + bottom);
+
+        Drawable background = getBackground();
+        if (background instanceof ColorDrawable) {
+            int color = ((ColorDrawable) background).getColor();
+            countView.setTransparentColor(color);
+        }
+
         setOnClickListener(this);
 
     }
@@ -79,7 +92,12 @@ public class LikeViewLayout extends LinearLayout implements View.OnClickListener
 
 
     public int getLikeCount() {
-        return likeCount;
+        return countView.getCount();
+    }
+
+
+    public void setLikeCount(int count) {
+        countView.setCount(count);
     }
 
 
@@ -95,23 +113,27 @@ public class LikeViewLayout extends LinearLayout implements View.OnClickListener
     public void onClick(View v) {
         setOnClickListener(null);
 
-        thumbView.setLike(true);
+//        thumbView.setLike(isLike);
 
-        thumbView.setLikeListener(new ThumbView.OnLikeListener() {
-            @Override
-            public void onThumbUp() {
-                isLike = true;
-                setOnClickListener(LikeViewLayout.this);
+        thumbView.startThumbUp();
+
+        countView.playPlusAnimation();
+
+        if (isLike) {
+            if (likeListener != null) {
+
+                likeListener.onThumbUp();
             }
+        } else {
+            if (likeListener != null) {
 
-            @Override
-            public void onThumbDown() {
-                isLike = false;
-                setOnClickListener(LikeViewLayout.this);
+                likeListener.onThumbDown();
             }
-        });
+        }
 
-        countView.playPlusAnimation(isLike);
+        isLike = !isLike;
+
+        setOnClickListener(LikeView.this);
 //        likeView.startAnimation();
     }
 }

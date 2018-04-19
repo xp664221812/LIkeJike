@@ -5,20 +5,26 @@ import android.os.Bundle;
 
 public class MainActivity extends AppCompatActivity {
     protected static final String TAG = MainActivity.class.getSimpleName();
-    private LikeViewLayout likeViewLayout;
-    private ThumbView thumbView;
+    private LikeView likeView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-       /* likeViewLayout = findViewById(R.id.ll_like);
-        likeView = findViewById(R.id.lv_start);
-        likeViewLayout.setOnClickListener(new View.OnClickListener() {
+
+        likeView = findViewById(R.id.ll_like);
+        likeView.setLikeListener(new LikeView.onLikeListener() {
             @Override
-            public void onClick(View v) {
-                likeView.startAnimation();
+            public void onThumbUp() {
+
             }
-        });*/
+
+            @Override
+            public void onThumbDown() {
+
+            }
+        });
+
+
     }
 }

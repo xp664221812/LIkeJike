@@ -7,13 +7,15 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.AppCompatTextView;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
+import android.widget.TextView;
 
 
-public class CountView extends View {
+public class CountView extends AppCompatTextView {
     protected static final String TAG = CountView.class.getSimpleName();
 
     private Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -30,17 +32,26 @@ public class CountView extends View {
 
     private Point[] points = new Point[4];
 
+    int baseline = 0;
+
     private ColorObject mColorObject;
 
     public void setCount(int count) {
         this.count = count;
+        this.newCount = count;
         isFirstInit = true;
-//        initData();
-//        postInvalidate();
+    }
+
+    public int getCount() {
+        return newCount;
     }
 
 
-    public void setColor(ColorObject colorObject) {
+    public void setTransparentColor(int color) {
+        this.transparentColor = color;
+    }
+
+    public void setThumbAnimation(ColorObject colorObject) {
         mColorObject = colorObject;
         postInvalidate();
     }
@@ -63,22 +74,22 @@ public class CountView extends View {
     {
         paint.setTextSize(50);
 
+
     }
 
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        Log.d(TAG, "count=================" + count);
         if (isFirstInit) {
+            baseline = (int) ((canvas.getHeight() / 2) - ((paint.descent() + paint.ascent()) / 2));
+
             paint.setColor(originColor);
-            canvas.drawText(String.valueOf(count), 0, 120, paint);
-//            canvas.drawText(String.valueOf(count), 0, 80, paint);
-//            canvas.drawText(String.valueOf(count), 0, 160, paint);
+
+            canvas.drawText(String.valueOf(count), 0, baseline, paint);
+
         } else {
             float fraction = mColorObject.fraction;
-
-            Log.d(TAG, "fraction==============" + fraction);
 
             //不变部分
             paint.setColor(originColor);
@@ -86,11 +97,19 @@ public class CountView extends View {
 
             //变化上部分
             paint.setColor(mColorObject.color1);
-            canvas.drawText(points[2].content, points[2].x, 120 - (120 - points[2].y) * fraction, paint);
+            if (plus) {
+                canvas.drawText(points[2].content, points[2].x, 120 - (120 - points[2].y) * fraction, paint);
+            } else {
+                canvas.drawText(points[2].content, points[2].x, 80 + (120 - points[2].y) * fraction, paint);
+            }
 
             //变化下部分
             paint.setColor(mColorObject.color1);
-            canvas.drawText(points[3].content, points[3].x, 160 - (points[3].y - 120) * fraction, paint);
+            if (plus) {
+                canvas.drawText(points[3].content, points[3].x, 160 - (points[3].y - 120) * fraction, paint);
+            } else {
+                canvas.drawText(points[3].content, points[3].x, 120 + (points[3].y - 120) * fraction, paint);
+            }
 
 
             //变化部分
@@ -100,15 +119,15 @@ public class CountView extends View {
         }
     }
 
-    public void playPlusAnimation(boolean thumbUp) {
+    public void playPlusAnimation() {
         isFirstInit = false;
-        plus = thumbUp;
+        plus = !plus;
 
         ColorObject object1 = new ColorObject(originColor, transparentColor);
         ColorObject object2 = new ColorObject(transparentColor, originColor);
 
-        calculatePoints(true);
-        ObjectAnimator animator = ObjectAnimator.ofObject(this, "color", new HsvEvaluator(), object1, object2);
+        calculatePoints(plus);
+        ObjectAnimator animator = ObjectAnimator.ofObject(this, "thumbAnimation", new HsvEvaluator(), object1, object2);
         animator.setDuration(300);
         animator.setInterpolator(new LinearInterpolator());
         animator.start();

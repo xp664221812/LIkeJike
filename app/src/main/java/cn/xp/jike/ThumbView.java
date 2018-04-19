@@ -31,29 +31,25 @@ public class ThumbView extends View {
 
     float scale = 1.0F;
 
-    public interface OnLikeListener {
-        void onThumbUp();
-
-        void onThumbDown();
-    }
-
-    private OnLikeListener likeListener;
-
 
     public void setLike(boolean isLike) {
         this.isLike = isLike;
     }
 
-    public void setLikeListener(OnLikeListener likeListener) {
-        this.likeListener = likeListener;
+//    public void setLikeListener(OnLikeListener likeListener) {
+//        this.likeListener = likeListener;
+//        isLike = !isLike;
+//        postInvalidate();
+//        if (isLike) {
+//            likeListener.onThumbUp();
+//        } else {
+//            likeListener.onThumbDown();
+//        }
+//    }
+
+    public void startThumbUp() {
         isLike = !isLike;
         postInvalidate();
-        if (isLike) {
-            likeListener.onThumbUp();
-        } else {
-            likeListener.onThumbDown();
-        }
-
     }
 
 
@@ -86,14 +82,6 @@ public class ThumbView extends View {
 
         refreshLikeView(canvas);
 
-//        refreshLikeView(canvas);
-
-        if (isLike) {
-            //点赞
-
-        } else {
-            //取消点赞
-        }
 
     }
 

@@ -1,8 +1,5 @@
 package cn.xp.jike;
 
-/**
- * Created by xp on 18-4-8.
- */
 
 public class Point {
     public float x;
