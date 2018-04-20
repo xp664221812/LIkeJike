@@ -4,5 +4,10 @@
         <attr name="distance_between_thumb_and_count" format="dimension" />
 
         <attr name="distance_move_in_y" format="dimension" />
+
+        <attr name="like_selected_picture" format="reference" />
+
+        <attr name="like_unselected_picture" format="reference" />
+
     </declare-styleable>
 </resources>

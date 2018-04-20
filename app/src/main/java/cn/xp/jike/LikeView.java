@@ -23,6 +23,8 @@ public class LikeView extends LinearLayout implements View.OnClickListener {
     int distance;
     int movingDistanceInY;
 
+    int selectedPictureResourceId;
+
 
     private onLikeListener likeListener;
 
@@ -42,6 +44,7 @@ public class LikeView extends LinearLayout implements View.OnClickListener {
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.LikeView);
         distance = a.getDimensionPixelSize(R.styleable.LikeView_distance_between_thumb_and_count, 0);
         movingDistanceInY = a.getDimensionPixelSize(R.styleable.LikeView_distance_move_in_y, 30);
+
         a.recycle();
     }
 
@@ -124,12 +127,10 @@ public class LikeView extends LinearLayout implements View.OnClickListener {
 
         if (isLike) {
             if (likeListener != null) {
-
                 likeListener.onThumbUp();
             }
         } else {
             if (likeListener != null) {
-
                 likeListener.onThumbDown();
             }
         }
