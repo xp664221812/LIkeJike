@@ -34,6 +34,8 @@ public class CountView extends AppCompatTextView {
 
     int baseline = 0;
 
+    int distanceInY = 60;
+
     private ColorObject mColorObject;
 
     public void setCount(int count) {
@@ -50,6 +52,12 @@ public class CountView extends AppCompatTextView {
     public void setTransparentColor(int color) {
         this.transparentColor = color;
     }
+
+
+    public void setMoveDistanceInY(int distanceInY) {
+        this.distanceInY = distanceInY;
+    }
+
 
     public void setThumbAnimation(ColorObject colorObject) {
         mColorObject = colorObject;
@@ -98,17 +106,17 @@ public class CountView extends AppCompatTextView {
             //变化上部分
             paint.setColor(mColorObject.color1);
             if (plus) {
-                canvas.drawText(points[2].content, points[2].x, 120 - (120 - points[2].y) * fraction, paint);
+                canvas.drawText(points[2].content, points[2].x, baseline - distanceInY * fraction, paint);
             } else {
-                canvas.drawText(points[2].content, points[2].x, 80 + (120 - points[2].y) * fraction, paint);
+                canvas.drawText(points[2].content, points[2].x, baseline - distanceInY + distanceInY * fraction, paint);
             }
 
             //变化下部分
             paint.setColor(mColorObject.color1);
             if (plus) {
-                canvas.drawText(points[3].content, points[3].x, 160 - (points[3].y - 120) * fraction, paint);
+                canvas.drawText(points[3].content, points[3].x, baseline + distanceInY - distanceInY * fraction, paint);
             } else {
-                canvas.drawText(points[3].content, points[3].x, 120 + (points[3].y - 120) * fraction, paint);
+                canvas.drawText(points[3].content, points[3].x, baseline + distanceInY * fraction, paint);
             }
 
 
@@ -128,7 +136,7 @@ public class CountView extends AppCompatTextView {
 
         calculatePoints(plus);
         ObjectAnimator animator = ObjectAnimator.ofObject(this, "thumbAnimation", new HsvEvaluator(), object1, object2);
-        animator.setDuration(300);
+        animator.setDuration(398);
         animator.setInterpolator(new LinearInterpolator());
         animator.start();
 

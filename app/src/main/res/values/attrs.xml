@@ -2,5 +2,7 @@
 <resources>
     <declare-styleable name="LikeView">
         <attr name="distance_between_thumb_and_count" format="dimension" />
+
+        <attr name="distance_move_in_y" format="dimension" />
     </declare-styleable>
 </resources>

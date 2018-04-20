@@ -36,16 +36,7 @@ public class ThumbView extends View {
         this.isLike = isLike;
     }
 
-//    public void setLikeListener(OnLikeListener likeListener) {
-//        this.likeListener = likeListener;
-//        isLike = !isLike;
-//        postInvalidate();
-//        if (isLike) {
-//            likeListener.onThumbUp();
-//        } else {
-//            likeListener.onThumbDown();
-//        }
-//    }
+
 
     public void startThumbUp() {
         isLike = !isLike;
