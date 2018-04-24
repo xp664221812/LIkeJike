@@ -3,7 +3,7 @@
 安卓点赞和取消点赞的效果，可以设置自己的点赞图片，也是我的第一个项目.
 ## Install
 ### gradle加载
-    compile 'cn.xp.custom:LikeView:1.0.2'
+    compile 'cn.xp.custom:LikeView:1.0.4'
 ### eclipse
     直接下载本项目就行
 ## Sample
