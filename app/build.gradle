@@ -1,13 +1,11 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 26
+    compileSdkVersion 27
     defaultConfig {
         applicationId "cn.xp.jike"
-        minSdkVersion 23
-        targetSdkVersion 26
-        versionCode 1
-        versionName "1.0"
+        minSdkVersion 16
+        targetSdkVersion 14
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -20,7 +18,7 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'com.android.support:appcompat-v7:26.0.0-beta1'
+    implementation 'com.android.support:appcompat-v7:27.1.0'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:0.5'
@@ -43,8 +41,8 @@ def libName = "LikeView"
 //compile引用时的第1部分
 group = "cn.xp.custom"
 // 版本号，//compile引用时的最后部分项目名，下次更新是只需要更改版本号即可
-version = "1.0.2"
-//上面配置后上传至JCenter后的编译路径是这样的： compile 'cn.xp.custom:LikeView:1.0.2'
+version = "1.0.4"
+//上面配置后上传至JCenter后的编译路径是这样的： compile 'cn.xp.custom:LikeView:1.0.4'
 
 //生成源文件
 task sourcesJar(type: Jar) {

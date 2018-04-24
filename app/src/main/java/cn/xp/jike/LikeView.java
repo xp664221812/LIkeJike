@@ -63,7 +63,6 @@ public class LikeView extends LinearLayout implements View.OnClickListener {
 
     @Override
     protected void onAttachedToWindow() {
-        Log.d(TAG,"11111111111111111111111");
         super.onAttachedToWindow();
         thumbView = findViewById(R.id.lv_start);
         countView = findViewById(R.id.cv_count);
