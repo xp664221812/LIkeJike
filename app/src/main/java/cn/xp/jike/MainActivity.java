@@ -26,6 +26,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+//        likeView.setThumbUpAndDownImage(R.mipmap.ic_launcher,R.mipmap.ic_launcher);
+
 
     }
 }

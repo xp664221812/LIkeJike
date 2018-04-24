@@ -9,6 +9,7 @@ import android.graphics.Paint;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatTextView;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.animation.LinearInterpolator;
 
 
@@ -117,7 +118,7 @@ public class CountView extends AppCompatTextView {
             }
 
 
-            //变化部分
+            //变化中间部分
             paint.setColor(mColorObject.color2);
             canvas.drawText(points[1].content, points[1].x, points[1].y, paint);
 
@@ -148,19 +149,19 @@ public class CountView extends AppCompatTextView {
         int num = 0;
         if (newArray.length != oldArray.length) {
             num = newArray.length;
-            Point point0 = new Point(0, 120, "", originColor);
+            Point point0 = new Point(0, baseline, "", originColor);
 
-            Point point1 = new Point(0, 120, String.valueOf(newCount), originColor);
+            Point point1 = new Point(0, baseline, String.valueOf(newCount), originColor);
             Point point2;
             Point point3;
             if (newCount > count) {
-                point2 = new Point(0, 80, String.valueOf(count), transparentColor);
+                point2 = new Point(0, baseline - distanceInY, String.valueOf(count), transparentColor);
 
-                point3 = new Point(0, 160, String.valueOf(newCount), transparentColor);
+                point3 = new Point(0, baseline + distanceInY, String.valueOf(newCount), transparentColor);
             } else {
-                point2 = new Point(0, 80, String.valueOf(newCount), transparentColor);
+                point2 = new Point(0, baseline - distanceInY, String.valueOf(newCount), transparentColor);
 
-                point3 = new Point(0, 160, String.valueOf(count), transparentColor);
+                point3 = new Point(0, baseline + distanceInY, String.valueOf(count), transparentColor);
             }
 
             points[0] = point0;
@@ -177,18 +178,18 @@ public class CountView extends AppCompatTextView {
             }
             float startX = paint.measureText(oldArray, 0, oldArray.length - num);
 
-            Point point0 = new Point(0, 120, String.valueOf(newArray, 0, newArray.length - num), transparentColor);
+            Point point0 = new Point(0, baseline, String.valueOf(newArray, 0, newArray.length - num), transparentColor);
 
-            Point point1 = new Point(startX, 120, String.valueOf(newArray, newArray.length - num, num), transparentColor);
+            Point point1 = new Point(startX, baseline, String.valueOf(newArray, newArray.length - num, num), transparentColor);
             Point point2;
             Point point3;
 
             if (newCount < count) {
-                point2 = new Point(startX, 80, String.valueOf(newArray, newArray.length - num, num), transparentColor);
-                point3 = new Point(startX, 160, String.valueOf(oldArray, oldArray.length - num, num), transparentColor);
+                point2 = new Point(startX, baseline - distanceInY, String.valueOf(newArray, newArray.length - num, num), transparentColor);
+                point3 = new Point(startX, baseline + distanceInY, String.valueOf(oldArray, oldArray.length - num, num), transparentColor);
             } else {
-                point2 = new Point(startX, 80, String.valueOf(oldArray, oldArray.length - num, num), transparentColor);
-                point3 = new Point(startX, 160, String.valueOf(newArray, newArray.length - num, num), transparentColor);
+                point2 = new Point(startX, baseline - distanceInY, String.valueOf(oldArray, oldArray.length - num, num), transparentColor);
+                point3 = new Point(startX, baseline + distanceInY, String.valueOf(newArray, newArray.length - num, num), transparentColor);
             }
             points[0] = point0;
             points[1] = point1;

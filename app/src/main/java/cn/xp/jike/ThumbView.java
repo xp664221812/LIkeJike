@@ -9,6 +9,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 
@@ -31,11 +32,15 @@ public class ThumbView extends View {
 
     float scale = 1.0F;
 
+    boolean showShining = true;
+
+    int selectedResId;
+    int unSelectedResId;
+
 
     public void setLike(boolean isLike) {
         this.isLike = isLike;
     }
-
 
 
     public void startThumbUp() {
@@ -63,6 +68,20 @@ public class ThumbView extends View {
 
     }
 
+    public void setThumbImage(int selectedResId, int unSelectedResId) {
+        this.selectedResId = selectedResId;
+        this.unSelectedResId = unSelectedResId;
+        if (selectedResId != R.mipmap.ic_messages_like_selected) {
+            showShining = false;
+            selected = BitmapFactory.decodeResource(getResources(), selectedResId);
+        }
+        if (unSelectedResId != R.mipmap.ic_messages_like_unselected) {
+            unselected = BitmapFactory.decodeResource(getResources(), unSelectedResId);
+        }
+
+        postInvalidate();
+    }
+
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
@@ -80,36 +99,12 @@ public class ThumbView extends View {
         return isLike;
     }
 
-    public float getScale() {
-        return FULL_SCALE;
-    }
-
-    public void setScale(float scale) {
-        this.scale = scale;
-        postInvalidate();
-    }
-
-
-    public void startAnimation() {
-        isLike = !isLike;
-        enlargementView();
-        postInvalidate();
-
-    }
-
-    private void showLikeAnimation(Canvas canvas) {
-//        ObjectAnimator animator = ObjectAnimator.ofFloat(this, "scale")
-    }
-
-    private void showUnlikeAnimation(Canvas canvas) {
-
-    }
 
     private void refreshLikeView(Canvas canvas) {
         if (isLike) {
             canvas.save();
             canvas.scale(HIDE_SCALE, HIDE_SCALE);
-            canvas.drawBitmap(unselected, mCenterX - selected.getWidth() / 2, mCenterY - selected.getHeight() / 2, paint);
+            canvas.drawBitmap(unselected, mCenterX - unselected.getWidth() / 2, mCenterY - unselected.getHeight() / 2, paint);
             canvas.restore();
 
 
@@ -118,16 +113,18 @@ public class ThumbView extends View {
             canvas.drawBitmap(selected, mCenterX - selected.getWidth() / 2, mCenterY - selected.getHeight() / 2, paint);
             canvas.restore();
 
+            if (showShining) {
 
-            canvas.save();
-            canvas.scale(FULL_SCALE, FULL_SCALE);
-            canvas.translate(0, -50);
-            canvas.drawBitmap(shining, mCenterX - shining.getWidth() / 2, mCenterY - shining.getHeight() / 2, paint);
-            canvas.restore();
+                canvas.save();
+                canvas.scale(FULL_SCALE, FULL_SCALE);
+                canvas.translate(0, -50);
+                canvas.drawBitmap(shining, mCenterX - shining.getWidth() / 2, mCenterY - shining.getHeight() / 2, paint);
+                canvas.restore();
+            }
         } else {
             canvas.save();
             canvas.scale(FULL_SCALE, FULL_SCALE);
-            canvas.drawBitmap(unselected, mCenterX - selected.getWidth() / 2, mCenterY - selected.getHeight() / 2, paint);
+            canvas.drawBitmap(unselected, mCenterX - unselected.getWidth() / 2, mCenterY - unselected.getHeight() / 2, paint);
             canvas.restore();
 
 
@@ -136,21 +133,22 @@ public class ThumbView extends View {
             canvas.drawBitmap(selected, mCenterX - selected.getWidth() / 2, mCenterY - selected.getHeight() / 2, paint);
             canvas.restore();
 
-
-            canvas.save();
-            canvas.scale(HIDE_SCALE, HIDE_SCALE);
-            canvas.translate(0, -50);
-            canvas.drawBitmap(shining, mCenterX - shining.getWidth() / 2, mCenterY - shining.getHeight() / 2, paint);
-            canvas.restore();
+            if (showShining) {
+                canvas.save();
+                canvas.scale(HIDE_SCALE, HIDE_SCALE);
+                canvas.translate(0, -50);
+                canvas.drawBitmap(shining, mCenterX - shining.getWidth() / 2, mCenterY - shining.getHeight() / 2, paint);
+                canvas.restore();
+            }
         }
     }
 
     //放大动画
-    private void enlargementView() {
-//        isLike = true;
-        ObjectAnimator animator = ObjectAnimator.ofFloat(this, "scale", 0.1f, 1.0f);
-        animator.start();
-    }
+//    private void enlargementView() {
+////        isLike = true;
+//        ObjectAnimator animator = ObjectAnimator.ofFloat(this, "scale", 0.1f, 1.0f);
+//        animator.start();
+//    }
 
     public void touchDownAnimation() {
         PropertyValuesHolder holder1 = PropertyValuesHolder.ofFloat("scaleX", 1.0f, 0.8f);

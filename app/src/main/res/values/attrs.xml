@@ -9,5 +9,7 @@
 
         <attr name="like_unselected_picture" format="reference" />
 
+        <attr name="count_text_size" format="dimension" />
+
     </declare-styleable>
 </resources>

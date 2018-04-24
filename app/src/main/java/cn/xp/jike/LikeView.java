@@ -4,8 +4,11 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.Log;
+import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -23,7 +26,10 @@ public class LikeView extends LinearLayout implements View.OnClickListener {
     int distance;
     int movingDistanceInY;
 
+    float countTextSize;
+
     int selectedPictureResourceId;
+    int unSelectedPictureResourceId;
 
 
     private onLikeListener likeListener;
@@ -41,11 +47,13 @@ public class LikeView extends LinearLayout implements View.OnClickListener {
 
     public LikeView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.LikeView);
-        distance = a.getDimensionPixelSize(R.styleable.LikeView_distance_between_thumb_and_count, 0);
-        movingDistanceInY = a.getDimensionPixelSize(R.styleable.LikeView_distance_move_in_y, 30);
-
-        a.recycle();
+        TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.LikeView);
+        distance = array.getDimensionPixelSize(R.styleable.LikeView_distance_between_thumb_and_count, 0);
+        movingDistanceInY = array.getDimensionPixelSize(R.styleable.LikeView_distance_move_in_y, 30);
+        countTextSize = array.getDimension(R.styleable.LikeView_count_text_size, 14);
+        selectedPictureResourceId = array.getResourceId(R.styleable.LikeView_like_selected_picture, R.mipmap.ic_messages_like_selected);
+        unSelectedPictureResourceId = array.getResourceId(R.styleable.LikeView_like_unselected_picture, R.mipmap.ic_messages_like_unselected);
+        array.recycle();
     }
 
     public LikeView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
@@ -55,11 +63,13 @@ public class LikeView extends LinearLayout implements View.OnClickListener {
 
     @Override
     protected void onAttachedToWindow() {
+        Log.d(TAG,"11111111111111111111111");
         super.onAttachedToWindow();
         thumbView = findViewById(R.id.lv_start);
         countView = findViewById(R.id.cv_count);
-        countView.setCount(999);
-
+        thumbView.setThumbImage(selectedPictureResourceId, unSelectedPictureResourceId);
+        countView.setCount(1239);
+        countView.setTextSize(TypedValue.COMPLEX_UNIT_PX, countTextSize);
         LinearLayout.LayoutParams params = (LayoutParams) countView.getLayoutParams();
 
         params.leftMargin = (int) Utils.dpToPixel(distance);
@@ -78,6 +88,12 @@ public class LikeView extends LinearLayout implements View.OnClickListener {
 
         setOnClickListener(this);
 
+
+    }
+
+    public void setThumbUpAndDownImage(int selectedResId, int unSelectedResId) {
+        Log.d(TAG,"2222222222222222222222222222222");
+        thumbView.setThumbImage(selectedResId, unSelectedResId);
     }
 
     @Override
@@ -127,11 +143,11 @@ public class LikeView extends LinearLayout implements View.OnClickListener {
 
         if (isLike) {
             if (likeListener != null) {
-                likeListener.onThumbUp();
+                likeListener.onThumbDown();
             }
         } else {
             if (likeListener != null) {
-                likeListener.onThumbDown();
+                likeListener.onThumbUp();
             }
         }
 
